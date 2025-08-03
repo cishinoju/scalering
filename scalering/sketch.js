@@ -8,71 +8,72 @@ let notes = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "
 
 let show1 = false, show2 = false, show3 = false, show4 = false, showReset = false
 
-let btnW = 40; // ボタン幅目安
-let btnGap = 20; // ボタン間の間隔
+let btnW = 120;      // ボタン幅
+let btnH = 15;       // ボタン高さ
+let btnGap = 5;    // ボタン間のギャップ
 let startX = 10;
+let startY = 10;
 
 function setup() {
-  createCanvas(600, 500);
+  createCanvas(windowWidth, windowHeight);
   angleMode(DEGREES);
-
-  let button1 = createButton('Key -1');
-  button1.position(startX, 10);
-  button1.mousePressed(() => {
+  
+  push();
+  createButton('Key -1').position(startX, startY).style('width', '120px').style('height', '15px').style('font-size', '10px').style('color', 'blue').mousePressed(() => {
     targetAngle += 30;
   });
-  
-  let button2 = createButton('Key +1');
-  button2.position(startX + btnW + btnGap, 10);
-  button2.mousePressed(() => {
-    targetAngle -= 30;
-  });
-
-  createButton('Major').position(10, 40).mousePressed(() => {
+  createButton('Major').position(startX, startY + btnH + btnGap).style('width', '120px').style('height', '15px').style('font-size', '10px').mousePressed(() => {
     show1 = true;
     show2 = false;
     show3 = false;
     show4 = false;
     showReset = false;
   });
-
-  createButton('Natural Minor').position(65, 40).mousePressed(() => {
-    show1 = false;
-    show2 = true;
-    show3 = false;
-    show4 = false;
-    showReset = false;
-  });
-  
-  createButton('Harmonic Minor').position(167, 40).mousePressed(() => {
+  createButton('Harmonic Minor').position(startX, startY + 2 * (btnH + btnGap)).style('width', '120px').style('height', '15px').style('font-size', '10px').mousePressed(() => {
     show1 = false;
     show2 = false;
     show3 = true;
     show4 = false;
     showReset = false;
   });
-  
-  createButton('Melodic Minor').position(283, 40).mousePressed(() => {
-    show1 = false;
-    show2 = false;
-    show3 = false;
-    show4 = true;
-    showReset = false;
-  });
-
-  createButton('Reset').position(10, 70).mousePressed(() => {
+  createButton('Reset').position(startX, startY + 3 * (btnH + btnGap)).style('width', '120px').style('height', '15px').style('font-size', '10px').style('color', 'green').mousePressed(() => {
     show1 = false;
     show2 = false;
     show3 = false;
     show4 = false;
     showReset = true;
   });
+  pop();
+  
+  push();
+  createButton('Key +1').position(startX + btnW + btnGap, startY).style('width', '120px').style('height', '15px').style('font-size', '10px').style('color', 'red').mousePressed(() => {
+    targetAngle -= 30;
+  });
+  createButton('Natural Minor').position(startX + btnW + btnGap, startY + btnH + btnGap).style('width', '120px').style('height', '15px').style('font-size', '10px').mousePressed(() => {
+    show1 = false;
+    show2 = true;
+    show3 = false;
+    show4 = false;
+    showReset = false;
+  });
+  createButton('Melodic Minor').position(startX + btnW + btnGap, startY + 2 * (btnH + btnGap)).style('width', '120px').style('height', '15px').style('font-size', '10px').mousePressed(() => {
+    show1 = false;
+    show2 = false;
+    show3 = false;
+    show4 = true;
+    showReset = false;
+  });
+  pop();
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
 
 function draw() {
   background(0);
 
-  translate(width/2, height/2);
+  translate(windowWidth/2, windowHeight/2);
 
   let diff = targetAngle - angle;
   angle += diff * easing;
@@ -95,10 +96,10 @@ function draw() {
     pop();
   }
 
-  // -- 動かない外側の縁の円 --
+  // -- 外側の縁だけの青い円（動かない） --
   push();
   resetMatrix();
-  translate(width/2, height/2);
+  translate(windowWidth/2, windowHeight/2);
   noFill();
   stroke(0, 85, 255);
   strokeWeight(4);
@@ -111,7 +112,7 @@ function draw() {
   if (show1) {
     push();
     resetMatrix();
-    translate(width/2, height/2);
+    translate(windowWidth/2, windowHeight/2);
     fill(0, 85, 255);
     noStroke();
     rotate(30);
@@ -130,7 +131,7 @@ function draw() {
   if (show2) {
     push();
     resetMatrix();
-    translate(width/2, height/2);
+    translate(windowWidth/2, windowHeight/2);
     fill(0, 85, 255);
     noStroke();
     rotate(30);
@@ -149,7 +150,7 @@ function draw() {
   if (show3) {
     push();
     resetMatrix();
-    translate(width/2, height/2);
+    translate(windowWidth/2, windowHeight/2);
     fill(0, 85, 255);
     noStroke();
     rotate(30);
@@ -168,7 +169,7 @@ function draw() {
   if (show4) {
     push();
     resetMatrix();
-    translate(width/2, height/2);
+    translate(windowWidth/2, windowHeight/2);
     fill(0, 85, 255);
     noStroke();
     rotate(30);
