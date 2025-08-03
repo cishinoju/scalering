@@ -14,6 +14,22 @@ let btnGap = 5;    // ボタン間のギャップ
 let startX = 10;
 let startY = 10;
 
+let titlesMajor = [
+  "A Major","Bb Major", "B Major", "C Major", "Db Major", "D Major", "Eb Major", "E Major", "F Major", "F#/Gb Major", "G Major", "Ab Major", 
+];
+
+let titlesNaturalMinor = [
+  "A Natural Minor","Bb Natural Minor", "B Natural Minor", "C Natural Minor", "C# Natural Minor", "D Natural Minor", "D#/Eb Natural Minor", "E Natural Minor", "F Natural Minor", "F# Natural Minor", "G Natural Minor", "G# Natural Minor", 
+];
+
+let titlesHarmonicMinor = [
+  "A Harmonic Minor","Bb Harmonic Minor", "B Harmonic Minor", "C Harmonic Minor", "C# Harmonic Minor", "D Harmonic Minor", "D#/Eb Harmonic Minor", "E Harmonic Minor", "F Harmonic Minor", "F# Harmonic Minor", "G Harmonic Minor", "G# Harmonic Minor", 
+];
+
+let titlesMelodicMinor = [
+  "A Melodic Minor","Bb Melodic Minor", "B Melodic Minor", "C Melodic Minor", "C# Melodic Minor", "D Melodic Minor", "D#/Eb Melodic Minor", "E Melodic Minor", "F Melodic Minor", "F# Melodic Minor", "G Melodic Minor", "G# Melodic Minor", 
+];
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   angleMode(DEGREES);
@@ -125,6 +141,18 @@ function draw() {
     ellipse(0, -120, 55, 55);
     rotate(60);
     ellipse(0, -120, 55, 55);
+    
+     // タイトルインデックス（0-11）を角度から計算
+    let normalized = ((-Math.round(angle / 30)) % 12 + 12) % 12;
+    let titleText = titlesMajor[normalized];
+
+    // 中心にタイトルを描画
+    rotate(60);
+    fill(255, 255, 0);
+    textAlign(CENTER, CENTER);
+    textSize(28);
+    text(titleText, 0, 0);
+    
     pop();
   }
   
@@ -144,6 +172,19 @@ function draw() {
     ellipse(0, -120, 55, 55);
     rotate(60);
     ellipse(0, -120, 55, 55);
+    
+     // タイトルインデックス（0-11）を角度から計算
+    let normalized = ((-Math.round(angle / 30)) % 12 + 12) % 12;
+    let titleText = titlesNaturalMinor[normalized];
+
+    // 中心にタイトルを描画
+    rotate(30);
+    
+    fill(255, 255, 0);
+    textAlign(CENTER, CENTER);
+    textSize(18);
+    text(titleText, 0, 0);
+    
     pop();
   }
   
@@ -163,6 +204,19 @@ function draw() {
     ellipse(0, -120, 55, 55);
     rotate(30);
     ellipse(0, -120, 55, 55);
+    
+     // タイトルインデックス（0-11）を角度から計算
+    let normalized = ((-Math.round(angle / 30)) % 12 + 12) % 12;
+    let titleText = titlesHarmonicMinor[normalized];
+
+    // 中心にタイトルを描画
+    rotate(60);
+    
+    fill(255, 255, 0);
+    textAlign(CENTER, CENTER);
+    textSize(16);
+    text(titleText, 0, 0);
+    
     pop();
   }
   
@@ -182,6 +236,19 @@ function draw() {
     ellipse(0, -120, 55, 55);
     rotate(60);
     ellipse(0, -120, 55, 55);
+    
+    // タイトルインデックス（0-11）を角度から計算
+    let normalized = ((-Math.round(angle / 30)) % 12 + 12) % 12;
+    let titleText = titlesMelodicMinor[normalized];
+
+    // 中心にタイトルを描画
+    rotate(60);
+    
+    fill(255, 255, 0);
+    textAlign(CENTER, CENTER);
+    textSize(17);
+    text(titleText, 0, 0);
+    
     pop();
   }
 }
