@@ -11,84 +11,100 @@ let show1 = false, show2 = false, show3 = false, show4 = false, showReset = fals
 
 let btnW = 100;      // ボタン幅
 let btnH = 15;       // ボタン高さ
-let btnGap = 5;    // ボタン間のギャップ
+let btnGap = 5;    // ボタン間隔
 let startX = 10;
 let startY = 10;
 
 let titlesMajor = [
-  "A Major","Bb Major", "B Major", "C Major", "Db Major", "D Major", "Eb Major", "E Major", "F Major", "F#/Gb Major", "G Major", "Ab Major", 
+  "C Major", "Db Major", "D Major", "Eb Major", "E Major", "F Major", "F#/Gb Major", "G Major", "Ab Major", "A Major",　"Bb Major", "B Major"
 ];
 
 let titlesNaturalMinor = [
-  "A Natural Minor","Bb Natural Minor", "B Natural Minor", "C Natural Minor", "C# Natural Minor", "D Natural Minor", "D#/Eb Natural Minor", "E Natural Minor", "F Natural Minor", "F# Natural Minor", "G Natural Minor", "G# Natural Minor", 
+  "C Natural Minor", "C# Natural Minor", "D Natural Minor", "D#/Eb Natural Minor", "E Natural Minor", "F Natural Minor", "F# Natural Minor", "G Natural Minor", "G# Natural Minor", "A Natural Minor",　"Bb Natural Minor", "B Natural Minor"
 ];
 
 let titlesHarmonicMinor = [
-  "A Harmonic Minor","Bb Harmonic Minor", "B Harmonic Minor", "C Harmonic Minor", "C# Harmonic Minor", "D Harmonic Minor", "D#/Eb Harmonic Minor", "E Harmonic Minor", "F Harmonic Minor", "F# Harmonic Minor", "G Harmonic Minor", "G# Harmonic Minor", 
+  "C Harmonic Minor", "C# Harmonic Minor", "D Harmonic Minor", "D#/Eb Harmonic Minor", "E Harmonic Minor", "F Harmonic Minor", "F# Harmonic Minor", "G Harmonic Minor", "G# Harmonic Minor", "A Harmonic Minor",　"Bb Harmonic Minor", "B Harmonic Minor"
 ];
 
 let titlesMelodicMinor = [
-  "A Melodic Minor","Bb Melodic Minor", "B Melodic Minor", "C Melodic Minor", "C# Melodic Minor", "D Melodic Minor", "D#/Eb Melodic Minor", "E Melodic Minor", "F Melodic Minor", "F# Melodic Minor", "G Melodic Minor", "G# Melodic Minor", 
+  "C Melodic Minor", "C# Melodic Minor", "D Melodic Minor", "D#/Eb Melodic Minor", "E Melodic Minor", "F Melodic Minor", "F# Melodic Minor", "G Melodic Minor", "G# Melodic Minor", "A Melodic Minor",　"Bb Melodic Minor", "B Melodic Minor"
 ];
 
+
+
 function setup() {
+  
   createCanvas(windowWidth, windowHeight);
   
   push();
   
-  let buttonWidth = windowWidth / 3;
-  let buttonHeight = windowHeight / 30;
+  let buttonWidth = 2 * windowWidth / 5;
+  let buttonHeight = windowHeight / 20;
+  let buttonTextSize = 2 * buttonWidth / 50;
   
-  createButton('Key -1').position(startX, startY).style('width', (buttonWidth) + 'px').style('height', (buttonHeight) + 'px').style('font-size', '10px').style('color', 'blue').mousePressed(() => {
+  createButton('Key -1').position(startX, startY).style('width', (buttonWidth) + 'px').style('height', (buttonHeight) + 'px').style('font-size', (buttonTextSize) + 'px').style('color', 'blue').mousePressed(() => {
     targetAngle += 30;
   });
-  createButton('Major').position(startX, startY + buttonHeight + btnGap).style('width', (buttonWidth) + 'px').style('height', (buttonHeight) + 'px').style('font-size', '10px').mousePressed(() => {
+  
+  createButton('Major').position(startX, startY + buttonHeight + btnGap).style('width', (buttonWidth) + 'px').style('height', (buttonHeight) + 'px').style('font-size', (buttonTextSize) + 'px').mousePressed(() => {
     show1 = true;
     show2 = false;
     show3 = false;
     show4 = false;
     showReset = false;
   });
-  createButton('Harmonic Minor').position(startX, startY + 2 * (buttonHeight + btnGap)).style('width', (buttonWidth) + 'px').style('height', (buttonHeight) + 'px').style('font-size', '10px').mousePressed(() => {
+  
+  createButton('Harmonic Minor').position(startX, startY + 2 * (buttonHeight + btnGap)).style('width', (buttonWidth) + 'px').style('height', (buttonHeight) + 'px').style('font-size', (buttonTextSize) + 'px').mousePressed(() => {
     show1 = false;
     show2 = false;
     show3 = true;
     show4 = false;
     showReset = false;
   });
-  createButton('Reset').position(startX, startY + 3 * (buttonHeight + btnGap)).style('width', (buttonWidth) + 'px').style('height', (buttonHeight) + 'px').style('font-size', '10px').style('color', 'green').mousePressed(() => {
+  
+  createButton('Reset').position(startX, startY + 3 * (buttonHeight + btnGap)).style('width', (buttonWidth) + 'px').style('height', (buttonHeight) + 'px').style('font-size', (buttonTextSize) + 'px').style('color', 'green').mousePressed(() => {
     show1 = false;
     show2 = false;
     show3 = false;
     show4 = false;
     showReset = true;
   });
+  
   pop();
   
   push();
-  createButton('Key +1').position(startX + buttonWidth + btnGap, startY).style('width', (buttonWidth) + 'px').style('height', (buttonHeight) + 'px').style('font-size', '10px').style('color', 'red').mousePressed(() => {
+  
+  createButton('Key +1').position(startX + buttonWidth + btnGap, startY).style('width', (buttonWidth) + 'px').style('height', (buttonHeight) + 'px').style('font-size', (buttonTextSize) + 'px').style('color', 'red').mousePressed(() => {
     targetAngle -= 30;
   });
-  createButton('Natural Minor').position(startX + buttonWidth + btnGap, startY + buttonHeight + btnGap).style('width', (buttonWidth) + 'px').style('height', (buttonHeight) + 'px').style('font-size', '10px').mousePressed(() => {
+  
+  createButton('Natural Minor').position(startX + buttonWidth + btnGap, startY + buttonHeight + btnGap).style('width', (buttonWidth) + 'px').style('height', (buttonHeight) + 'px').style('font-size', (buttonTextSize) + 'px').mousePressed(() => {
     show1 = false;
     show2 = true;
     show3 = false;
     show4 = false;
     showReset = false;
   });
-  createButton('Melodic Minor').position(startX + buttonWidth + btnGap, startY + 2 * (buttonHeight + btnGap)).style('width', (buttonWidth) + 'px').style('height', (buttonHeight) + 'px').style('font-size', '10px').mousePressed(() => {
+  
+  createButton('Melodic Minor').position(startX + buttonWidth + btnGap, startY + 2 * (buttonHeight + btnGap)).style('width', (buttonWidth) + 'px').style('height', (buttonHeight) + 'px').style('font-size', (buttonTextSize) + 'px').mousePressed(() => {
     show1 = false;
     show2 = false;
     show3 = false;
     show4 = true;
     showReset = false;
   });
+  
   pop();
 }
+
+
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
+
+
 
 function draw() {
   
@@ -123,7 +139,7 @@ function draw() {
   
   pop();
   
-    // -- 白鍵 --
+  // -- 白鍵 --
   
   push();
   
@@ -133,7 +149,7 @@ function draw() {
   
   pop();
   
-  // ---- 白鍵の境界線 ----
+  // -- 白鍵の境界線 --
   
   push();
   
