@@ -3,12 +3,13 @@ let targetAngle = 0;
 let easing = 0.1;
 let numCircles = 12;
 let radius = 120;
+let radius2 = 90;
 
-let notes = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"];
+let notes = ["D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B", "C", "C#/Db", "D"];
 
 let show1 = false, show2 = false, show3 = false, show4 = false, showReset = false
 
-let btnW = 120;      // ボタン幅
+let btnW = 100;      // ボタン幅
 let btnH = 15;       // ボタン高さ
 let btnGap = 5;    // ボタン間のギャップ
 let startX = 10;
@@ -32,27 +33,30 @@ let titlesMelodicMinor = [
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  angleMode(DEGREES);
   
   push();
-  createButton('Key -1').position(startX, startY).style('width', '120px').style('height', '15px').style('font-size', '10px').style('color', 'blue').mousePressed(() => {
+  
+  let buttonWidth = windowWidth / 3;
+  let buttonHeight = windowHeight / 30;
+  
+  createButton('Key -1').position(startX, startY).style('width', (buttonWidth) + 'px').style('height', (buttonHeight) + 'px').style('font-size', '10px').style('color', 'blue').mousePressed(() => {
     targetAngle += 30;
   });
-  createButton('Major').position(startX, startY + btnH + btnGap).style('width', '120px').style('height', '15px').style('font-size', '10px').mousePressed(() => {
+  createButton('Major').position(startX, startY + buttonHeight + btnGap).style('width', (buttonWidth) + 'px').style('height', (buttonHeight) + 'px').style('font-size', '10px').mousePressed(() => {
     show1 = true;
     show2 = false;
     show3 = false;
     show4 = false;
     showReset = false;
   });
-  createButton('Harmonic Minor').position(startX, startY + 2 * (btnH + btnGap)).style('width', '120px').style('height', '15px').style('font-size', '10px').mousePressed(() => {
+  createButton('Harmonic Minor').position(startX, startY + 2 * (buttonHeight + btnGap)).style('width', (buttonWidth) + 'px').style('height', (buttonHeight) + 'px').style('font-size', '10px').mousePressed(() => {
     show1 = false;
     show2 = false;
     show3 = true;
     show4 = false;
     showReset = false;
   });
-  createButton('Reset').position(startX, startY + 3 * (btnH + btnGap)).style('width', '120px').style('height', '15px').style('font-size', '10px').style('color', 'green').mousePressed(() => {
+  createButton('Reset').position(startX, startY + 3 * (buttonHeight + btnGap)).style('width', (buttonWidth) + 'px').style('height', (buttonHeight) + 'px').style('font-size', '10px').style('color', 'green').mousePressed(() => {
     show1 = false;
     show2 = false;
     show3 = false;
@@ -62,17 +66,17 @@ function setup() {
   pop();
   
   push();
-  createButton('Key +1').position(startX + btnW + btnGap, startY).style('width', '120px').style('height', '15px').style('font-size', '10px').style('color', 'red').mousePressed(() => {
+  createButton('Key +1').position(startX + buttonWidth + btnGap, startY).style('width', (buttonWidth) + 'px').style('height', (buttonHeight) + 'px').style('font-size', '10px').style('color', 'red').mousePressed(() => {
     targetAngle -= 30;
   });
-  createButton('Natural Minor').position(startX + btnW + btnGap, startY + btnH + btnGap).style('width', '120px').style('height', '15px').style('font-size', '10px').mousePressed(() => {
+  createButton('Natural Minor').position(startX + buttonWidth + btnGap, startY + buttonHeight + btnGap).style('width', (buttonWidth) + 'px').style('height', (buttonHeight) + 'px').style('font-size', '10px').mousePressed(() => {
     show1 = false;
     show2 = true;
     show3 = false;
     show4 = false;
     showReset = false;
   });
-  createButton('Melodic Minor').position(startX + btnW + btnGap, startY + 2 * (btnH + btnGap)).style('width', '120px').style('height', '15px').style('font-size', '10px').mousePressed(() => {
+  createButton('Melodic Minor').position(startX + buttonWidth + btnGap, startY + 2 * (buttonHeight + btnGap)).style('width', (buttonWidth) + 'px').style('height', (buttonHeight) + 'px').style('font-size', '10px').mousePressed(() => {
     show1 = false;
     show2 = false;
     show3 = false;
@@ -87,20 +91,25 @@ function windowResized() {
 }
 
 function draw() {
+  
   background(0);
-
   translate(windowWidth/2, windowHeight/2);
 
   let diff = targetAngle - angle;
   angle += diff * easing;
   rotate(angle);
 
+  // -- MIDI音名 --
+  
+  push();
+  
+  angleMode(DEGREES);
+  
   for (let i = 0; i < numCircles; i++) {
     let theta = i * 360 / numCircles;
     let x = cos(theta) * radius;
     let y = sin(theta) * radius;
-
-    // ---- MIDI音名描画（常に白字） ----
+    
     fill(255);
     noStroke();
     textAlign(CENTER, CENTER);
@@ -111,9 +120,133 @@ function draw() {
     text(notes[i], 0, 0);
     pop();
   }
+  
+  pop();
+  
+    // -- 白鍵 --
+  
+  push();
+  
+  fill(255);
+  noStroke();
+  ellipse(0, 0, 180, 180);
+  
+  pop();
+  
+  // ---- 白鍵の境界線 ----
+  
+  push();
+  
+  angleMode(RADIANS);
+  
+  let angles = [PI / 4, PI / 4, PI / 3, PI / 3, PI / 4, PI /4, PI /3]; //    各間隔
+  let thetaSum = 0;
+  
+  stroke(0);
+  
+  for (let i = 0; i < angles.length; i++) {
+    let rad = thetaSum;
+    let x = cos(rad) * radius2;
+    let y = sin(rad) * radius2;
+    line(0, 0, x, y);
+
+    thetaSum += angles[i];
+    
+    push();
+    translate(x, y);
+    rotate(-angle);
+    pop();
+}
+  
+  pop();
+  
+  // -- 黒鍵 --
+  
+  push();
+  angleMode(RADIANS);
+  fill(0);
+  
+  let cx = 0;
+  let cy = 0;
+  let outerR = 90;  // 外半径
+  let innerR = 50;   // 内半径
+  let theta0 = 0;        // 開始角
+  let theta1 = PI /12;   // 終了角（30°）
+  let theta2 = PI / 6;
+  
+  beginShape();
+  
+  // --- 外弧 ---
+  　for (let i = theta0; i <= theta1; i += 0.01) {
+    vertex(cx + cos(i)*outerR, cy + sin(i)*outerR);
+  　}
+  
+  　// --- 切り口1本目（終了角の放射線で内環へ）---
+  　for(let i = theta1; i >= theta0; i -= 0.01){
+    vertex(cx + cos(i)*innerR, cy + sin(i)*innerR);
+  　}
+  
+  // --- 切り口2本目（開始角の放射線で外環へ閉じる）---
+  endShape(CLOSE);
+
+  // 2つ目のバウムクーヘン片（角度をオフセット）
+　　let offset1 = 5 * PI / 12; // 75°
+    let offset2 = PI / 3; // 60°
+    let offset3 = PI / 2; // 90°
+  
+　beginShape();
+　　for (let i = theta0; i <= theta2; i += 0.01) {
+  　vertex(cx + cos(i + offset1)*outerR, cy + sin(i + offset1)*outerR);
+　　}
+　　for (let i = theta2; i >= theta0; i -= 0.01) {
+  　vertex(cx + cos(i + offset1)*innerR, cy + sin(i + offset1)*innerR);
+　　}
+　endShape(CLOSE);
+  
+  beginShape();
+　　for (let i = theta0; i <= theta2; i += 0.01) {
+  　vertex(cx + cos(i + offset1 + offset2)*outerR, cy + sin(i + offset1 + offset2)*outerR);
+　　}
+　　for (let i = theta2; i >= theta0; i -= 0.01) {
+  　vertex(cx + cos(i + offset1 + offset2)*innerR, cy + sin(i + offset1 + offset2)*innerR);
+　　}
+　endShape(CLOSE);
+
+  beginShape();
+　　for (let i = theta0; i <= theta2; i += 0.01) {
+  　vertex(cx + cos(i + offset1 + 2 * offset2)*outerR, cy + sin(i + offset1 + 2 * offset2)*outerR);
+　　}
+　　for (let i = theta2; i >= theta0; i -= 0.01) {
+  　vertex(cx + cos(i + offset1 + 2 * offset2)*innerR, cy + sin(i + offset1 + 2 * offset2)*innerR);
+　　}
+　endShape(CLOSE);
+
+  beginShape();
+　　for (let i = theta0; i <= theta2; i += 0.01) {
+  　vertex(cx + cos(i + offset1 + 2 * offset2 + offset3)*outerR, cy + sin(i + offset1 + 2 * offset2 + offset3)*outerR);
+　　}
+　　for (let i = theta2; i >= theta0; i -= 0.01) {
+  　vertex(cx + cos(i + offset1 + 2 * offset2 + offset3)*innerR, cy + sin(i + offset1 + 2 * offset2 + offset3)*innerR);
+　　}
+　endShape(CLOSE);
+  
+  beginShape();
+　　for (let i = theta0; i <= theta2; i += 0.01) {
+  　vertex(cx + cos(i + offset1 + 3 * offset2 + offset3)*outerR, cy + sin(i + offset1 + 3 * offset2 + offset3)*outerR);
+　　}
+　　for (let i = theta2; i >= theta0; i -= 0.01) {
+  　vertex(cx + cos(i + offset1 + 3 * offset2 + offset3)*innerR, cy + sin(i + offset1 + 3 * offset2 + offset3)*innerR);
+　　}
+　endShape(CLOSE);
+  
+  pop();
+
 
   // -- 外側の縁だけの青い円（動かない） --
+  
   push();
+  
+  angleMode(DEGREES);
   resetMatrix();
   translate(windowWidth/2, windowHeight/2);
   noFill();
@@ -123,7 +256,25 @@ function draw() {
     rotate(30);
     ellipse(0, -120, 55, 55);
   }
+  
   pop();
+  
+  // -- 白鍵の縁 --
+  
+  push();
+  
+  noFill();
+  stroke(0, 85, 255);
+  strokeWeight(4);
+  ellipse(0, 0, 180, 180);
+  
+  pop();
+  
+  // ---- 個別のスケール ----
+  
+  push();
+  
+  angleMode(DEGREES);
   
   if (show1) {
     push();
@@ -148,7 +299,9 @@ function draw() {
 
     // 中心にタイトルを描画
     rotate(60);
-    fill(255, 255, 0);
+    fill(0);
+    stroke(255);
+    strokeWeight(2);
     textAlign(CENTER, CENTER);
     textSize(28);
     text(titleText, 0, 0);
@@ -179,8 +332,9 @@ function draw() {
 
     // 中心にタイトルを描画
     rotate(30);
-    
-    fill(255, 255, 0);
+    fill(0);
+    stroke(255);
+    strokeWeight(2);
     textAlign(CENTER, CENTER);
     textSize(18);
     text(titleText, 0, 0);
@@ -211,8 +365,9 @@ function draw() {
 
     // 中心にタイトルを描画
     rotate(60);
-    
-    fill(255, 255, 0);
+    fill(0);
+    stroke(255);
+    strokeWeight(2);
     textAlign(CENTER, CENTER);
     textSize(16);
     text(titleText, 0, 0);
@@ -243,12 +398,16 @@ function draw() {
 
     // 中心にタイトルを描画
     rotate(60);
-    
-    fill(255, 255, 0);
+    fill(0);
+    stroke(255);
+    strokeWeight(2);
     textAlign(CENTER, CENTER);
     textSize(17);
     text(titleText, 0, 0);
     
     pop();
   }
+  
+  pop();
+  
 }
